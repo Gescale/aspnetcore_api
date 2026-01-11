@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DemoAPI.Models;
+using DemoAPI.Models.Repositories;
+using DemoAPI.Models.Filters;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DemoAPI.Controllers
 {
@@ -7,17 +10,16 @@ namespace DemoAPI.Controllers
     [Route("api/[controller]")]
     public class ShirtsController : ControllerBase
     {
-
         //There are two ways to define routes in ASP.NET Core:
         //  - Using [HttpGet] and [Route("/my-route")] on every method
         //  - Using [HttpGet("/my-route")] on method level and placing [Route("api/[controller]")]
         //      on the class level, the route name will be derived from the class name. eg : ShirtsController -> shirts
-        
+
 
         [HttpGet]
-        public string GetShirtSize()
+        public IActionResult GetShirts()
         {
-            return ("Many shirts returned");
+            return Ok(ShirtRepository.GetShirts());
         }
 
         // 1. We can use automatic model binding to bind route parameters to method parameters
@@ -39,36 +41,53 @@ namespace DemoAPI.Controllers
 
         // 4. We can also use [FromQuery] attribute to bind query parameters to method parameters
         // The colour parameter will be passed as a query string parameter eg: /api/shirts/34?colour=red
+        //[HttpGet("{id}")]
+        //public string GetShirtById(int id, [FromQuery] string colour)
+        //{
+        //    return ($"Shirt with ID: {id}, colour : {colour} returned");
+        //}
+
+        // Get shirt by id without mentioning the colour
+        // We use IActionResult when the method returns varying types
+        // Whenever we want to return IActionResult as a string we must return the string in the Ok method eg: return Ok("The return string");
         [HttpGet("{id}")]
-        public string GetShirtById(int id, [FromQuery] string colour)
+        [Shirt_ValidateShirtIdFilter]
+        public IActionResult GetShirtById(int id)
         {
-            return ($"Shirt with ID: {id}, colour : {colour} returned");
+            return Ok(ShirtRepository.GetShirtById(id));
         }
 
         //To update
         [HttpPut("{id}")]
-        public string UpdateShirt(int id)
+        public IActionResult UpdateShirt(int id)
         {
-            return $"Updating shirt {id}";
+            return Ok($"Updating shirt {id}");
         }
 
 
         // Binding using the body we use the post or put
-        // 
         [HttpPost]
-        public string CreateShirt([FromBody]Shirt shirt)
+        public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            
-            return $"Created a shirt for : R{shirt.Price}";
+            if (shirt == null) return BadRequest();
+
+            var existingShirt = ShirtRepository.GetShirtByProperties(shirt.BrandName, shirt.Gender, shirt.Colour, shirt.Size);
+            if(existingShirt != null) return BadRequest();
+
+            ShirtRepository.AddShirt(shirt);
+
+            return CreatedAtAction(nameof(GetShirtById),
+                new { id = shirt.ShirtId },
+                shirt);
         }
 
 
         // To delete
         //[HttpDelete]
         //[Route("/shirts/{id}")]
-        //public string DeleteShirt(int id)
+        //public IActionResult DeleteShirt(int id)
         //{
-        //    return $"Deleting shirt {id}";
+        //    return Ok($"Deleting shirt {id}");
         //}
     }
 }
