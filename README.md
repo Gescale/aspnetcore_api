@@ -64,8 +64,7 @@ This API demonstrates a real-world scenario where bugs, users, and projects are 
 
 1. **Clone the repo:**
    ```bash
-   git clone [https://github.com/Gescale/aspnetcore_api.git](https://github.com/Gescale/aspnetcore_api.git)
-
+   git clone https://github.com/Gescale/aspnetcore_api.git
 2. **Database Migration:**
    ```bash
    dotnet ef database update
