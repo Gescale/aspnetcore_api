@@ -1,4 +1,4 @@
-# Master RESTful API Development (.NET 10)
+# aspnetcore_api | Master RESTful API Development (.NET 10)
 
 <p align="center">
   <img src="https://skillicons.dev/icons?i=cs,dotnet,visualstudio,postman,powershell" />
