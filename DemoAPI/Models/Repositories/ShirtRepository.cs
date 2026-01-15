@@ -35,10 +35,10 @@
             x.BrandName.Equals(brandName, StringComparison.OrdinalIgnoreCase) &&
             !string.IsNullOrWhiteSpace(gender) &&
             !string.IsNullOrWhiteSpace(x.Gender) &&
-            x.BrandName.Equals(gender, StringComparison.OrdinalIgnoreCase) &&
+            x.Gender.Equals(gender, StringComparison.OrdinalIgnoreCase) &&
             !string.IsNullOrWhiteSpace(colour) &&
             !string.IsNullOrWhiteSpace(x.Colour) &&
-            x.BrandName.Equals(colour, StringComparison.OrdinalIgnoreCase) &&
+            x.Colour.Equals(colour, StringComparison.OrdinalIgnoreCase) &&
             size.HasValue &&
             x.Size.HasValue &&
             size.Value == x.Size.Value);
@@ -48,7 +48,8 @@
         {
             // In a real-world application, you would typically generate the ID using a database auto-increment feature
             // Here, we simply set it to one more than the current maximum ID for demonstration purposes
-            shirt.ShirtId = shirts.Max(s => s.ShirtId) + 1;
+            int maxId = shirts.Max(s => s.ShirtId);
+            shirt.ShirtId = maxId + 1;
             shirts.Add(shirt);
         }
     }
