@@ -41,7 +41,7 @@
             x.Colour.Equals(colour, StringComparison.OrdinalIgnoreCase) &&
             size.HasValue &&
             x.Size.HasValue &&
-            size.Value == x.Size.Value);
+            size.Value == x.Size.Value); 
         }
 
         public static void AddShirt(Shirt shirt)

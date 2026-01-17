@@ -67,13 +67,9 @@ namespace DemoAPI.Controllers
 
         // Binding using the body we use the post or put
         [HttpPost]
+        [Shirt_ValidateShirtExistanceFilter]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            if (shirt == null) return BadRequest();
-
-            var existingShirt = ShirtRepository.GetShirtByProperties(shirt.BrandName, shirt.Gender, shirt.Colour, shirt.Size);
-            if(existingShirt != null) return BadRequest();
-
             ShirtRepository.AddShirt(shirt);
 
             return CreatedAtAction(nameof(GetShirtById),

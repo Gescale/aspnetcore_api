@@ -4,6 +4,39 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace DemoAPI.Models.Filters
 {
+    public class Shirt_ValidateShirtExistanceFilterAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var shirt = context.ActionArguments["shirt"] as Shirt;
+            if (shirt == null)
+            {
+                context.ModelState.AddModelError("Shirt", "Shirt can not be null.");
+                var problemDetails = new ValidationProblemDetails(context.ModelState)
+                {
+                    Status = StatusCodes.Status400BadRequest
+                };
+                context.Result = new BadRequestObjectResult(problemDetails);
+            }
+
+            else
+            {
+                var existingShirt = ShirtRepository.GetShirtByProperties(shirt.BrandName, shirt.Gender, shirt.Colour, shirt.Size);
+                if (existingShirt != null)
+                {
+                    context.ModelState.AddModelError("Shirt", "Shirt with the same values already exist.");
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Status = StatusCodes.Status400BadRequest
+                    };
+                    context.Result = new BadRequestObjectResult(problemDetails);
+                }
+            }    
+        }
+    }
+
     public class Shirt_ValidateShirtIdFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
