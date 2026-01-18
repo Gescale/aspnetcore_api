@@ -59,10 +59,10 @@ namespace DemoAPI.Controllers
 
         //To update
         [HttpPut("{id}")]
+        [Shirt_ValidateShirtIdFilter]
+        [Shirt_ValidateUpdateShirtFilter]
         public IActionResult UpdateShirt(int id, Shirt shirt)
         {
-            if (id != shirt.ShirtId) return BadRequest();
-
             try
             {
                 ShirtRepository.UpdateShirt(shirt);
