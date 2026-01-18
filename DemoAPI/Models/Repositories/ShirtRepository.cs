@@ -41,7 +41,7 @@
             x.Colour.Equals(colour, StringComparison.OrdinalIgnoreCase) &&
             size.HasValue &&
             x.Size.HasValue &&
-            size.Value == x.Size.Value); 
+            size.Value == x.Size.Value);
         }
 
         public static void AddShirt(Shirt shirt)
@@ -51,6 +51,19 @@
             int maxId = shirts.Max(s => s.ShirtId);
             shirt.ShirtId = maxId + 1;
             shirts.Add(shirt);
+        }
+
+        public static void UpdateShirt(Shirt shirt)
+        {
+            var existingShirt = GetShirtById(shirt.ShirtId);
+            if (existingShirt != null)
+            {
+                existingShirt.BrandName = shirt.BrandName;
+                existingShirt.Colour = shirt.Colour;
+                existingShirt.Size = shirt.Size;
+                existingShirt.Price = shirt.Price;
+                existingShirt.Gender = shirt.Gender;
+            }
         }
     }
 }
