@@ -91,5 +91,16 @@ namespace DemoAPI.Controllers
         //{
         //    return Ok($"Deleting shirt {id}");
         //}
+
+        [HttpDelete]
+        [Shirt_ValidateShirtIdFilter]
+        public IActionResult DeleteShirt(int id)
+        {
+            var shirt = ShirtRepository.GetShirtById(id);
+            ShirtRepository.DeleteShirt(id);
+
+            return Ok(shirt);
+        }
+
     }
 }
