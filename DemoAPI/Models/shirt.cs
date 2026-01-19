@@ -20,7 +20,7 @@ namespace DemoAPI.Models
         public int? Size { get; set; }
 
         [Required]
-        public decimal? Price { get; set; }
+        public int? Price { get; set; }
 
         [Required]
         public string? Gender { get; set; }
