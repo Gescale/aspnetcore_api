@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DemoAPI.Models;
+﻿using DemoAPI.Models;
+using DemoAPI.Models.Filters.ActionFilters;
+using DemoAPI.Models.Filters.ExceptionFilters;
 using DemoAPI.Models.Repositories;
-using DemoAPI.Models.Filters;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DemoAPI.Controllers
 {
@@ -61,20 +62,11 @@ namespace DemoAPI.Controllers
         [HttpPut("{id}")]
         [Shirt_ValidateShirtIdFilter]
         [Shirt_ValidateUpdateShirtFilter]
+        [Shirt_HandleUpdateExceptionsFilter]
         public IActionResult UpdateShirt(int id, Shirt shirt)
         {
-            try
-            {
-                ShirtRepository.UpdateShirt(shirt);
-            }
-            catch
-            {
-                if (!ShirtRepository.ShirtExists(id))
-                    return NotFound();
-
-                throw;
-            }
-
+            ShirtRepository.UpdateShirt(shirt);
+            
             return NoContent();
         }
 

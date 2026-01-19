@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace DemoAPI.Models.Filters
+namespace DemoAPI.Models.Filters.ActionFilters
 {
     public class Shirt_ValidateShirtExistanceFilterAttribute : ActionFilterAttribute
     {
