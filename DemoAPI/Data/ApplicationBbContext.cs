@@ -24,7 +24,7 @@ namespace DemoAPI.Data
                     new Shirt { ShirtId = 4, BrandName = "Polo", Colour = "Black", Size = 32, Price = 299, Gender = "women" },
                     new Shirt { ShirtId = 5, BrandName = "Levis", Colour = "White", Size = 36, Price = 176, Gender = "men" },
                     new Shirt { ShirtId = 6, BrandName = "Guess", Colour = "Yellow", Size = 26, Price = 219, Gender = "men" }
-                );
+            );
         }
     }
 }
