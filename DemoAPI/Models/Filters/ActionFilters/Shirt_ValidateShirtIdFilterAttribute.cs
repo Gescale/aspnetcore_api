@@ -1,4 +1,5 @@
-﻿using DemoAPI.Models.Repositories;
+﻿using DemoAPI.Data;
+using DemoAPI.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -39,14 +40,21 @@ namespace DemoAPI.Models.Filters.ActionFilters
 
     public class Shirt_ValidateShirtIdFilterAttribute : ActionFilterAttribute
     {
+        private readonly ApplicationDbContext db;
+
+        public Shirt_ValidateShirtIdFilterAttribute(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-
             var shirtId = context.ActionArguments["id"] as int?;
+
             if(shirtId.HasValue)
             {
-                if (shirtId.Value < 0)
+                if (shirtId.Value <= 0)
                 {
                     context.ModelState.AddModelError("ShirtId", "ShirtId is invalid.");
                     var problemDetails = new ValidationProblemDetails(context.ModelState)
@@ -56,14 +64,24 @@ namespace DemoAPI.Models.Filters.ActionFilters
                     context.Result = new BadRequestObjectResult(problemDetails);
                 }
 
-                else if (!ShirtRepository.ShirtExists(shirtId.Value))
+                else
                 {
-                    context.ModelState.AddModelError("ShirtId", "Shirt doesnt exist.");
-                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    var shirt = db.Shirts.Find(shirtId.Value);
+
+                    if (shirt == null)
                     {
-                        Status = StatusCodes.Status404NotFound
-                    };
-                    context.Result = new NotFoundObjectResult(problemDetails);
+                        context.ModelState.AddModelError("ShirtId", "Shirt doesnt exist.");
+                        var problemDetails = new ValidationProblemDetails(context.ModelState)
+                        {
+                            Status = StatusCodes.Status404NotFound
+                        };
+                        context.Result = new NotFoundObjectResult(problemDetails);
+                    }
+
+                    else
+                    {
+                        context.HttpContext.Items["shirt"] = shirt;
+                    }
                 }
             }
         }

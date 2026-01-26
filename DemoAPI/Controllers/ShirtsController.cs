@@ -1,4 +1,5 @@
-﻿using DemoAPI.Models;
+﻿using DemoAPI.Data;
+using DemoAPI.Models;
 using DemoAPI.Models.Filters.ActionFilters;
 using DemoAPI.Models.Filters.ExceptionFilters;
 using DemoAPI.Models.Repositories;
@@ -11,6 +12,13 @@ namespace DemoAPI.Controllers
     [Route("api/[controller]")]
     public class ShirtsController : ControllerBase
     {
+        private readonly ApplicationDbContext db;
+
+        public ShirtsController(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         //There are two ways to define routes in ASP.NET Core:
         //  - Using [HttpGet] and [Route("/my-route")] on every method
         //  - Using [HttpGet("/my-route")] on method level and placing [Route("api/[controller]")]
@@ -20,7 +28,7 @@ namespace DemoAPI.Controllers
         [HttpGet]
         public IActionResult GetShirts()
         {
-            return Ok(ShirtRepository.GetShirts());
+            return Ok(db.Shirts.ToList());
         }
 
         // 1. We can use automatic model binding to bind route parameters to method parameters
@@ -52,15 +60,15 @@ namespace DemoAPI.Controllers
         // We use IActionResult when the method returns varying types
         // Whenever we want to return IActionResult as a string we must return the string in the Ok method eg: return Ok("The return string");
         [HttpGet("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult GetShirtById(int id)
         {
-            return Ok(ShirtRepository.GetShirtById(id));
+            return Ok(HttpContext.Items["shirt"]);
         }
 
         //To update
         [HttpPut("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         [Shirt_ValidateUpdateShirtFilter]
         [Shirt_HandleUpdateExceptionsFilter]
         public IActionResult UpdateShirt(int id, Shirt shirt)
@@ -93,7 +101,7 @@ namespace DemoAPI.Controllers
         //}
 
         [HttpDelete]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult DeleteShirt(int id)
         {
             var shirt = ShirtRepository.GetShirtById(id);
