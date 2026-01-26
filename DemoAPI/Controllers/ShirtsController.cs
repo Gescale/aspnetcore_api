@@ -81,10 +81,11 @@ namespace DemoAPI.Controllers
 
         // Binding using the body we use the post or put
         [HttpPost]
-        [Shirt_ValidateShirtExistanceFilter]
+        [TypeFilter(typeof(Shirt_ValidateCreateShirtFilterAttribute))]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            ShirtRepository.AddShirt(shirt);
+             this.db.Shirts.Add(shirt);
+            this.db.SaveChanges();
 
             return CreatedAtAction(nameof(GetShirtById),
                 new { id = shirt.ShirtId },
