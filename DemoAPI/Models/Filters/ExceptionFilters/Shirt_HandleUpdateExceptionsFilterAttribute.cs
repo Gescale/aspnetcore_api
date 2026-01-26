@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DemoAPI.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace DemoAPI.Models.Filters.ExceptionFilters
 {
     public class Shirt_HandleUpdateExceptionsFilterAttribute : ExceptionFilterAttribute
     {
+        private readonly ApplicationDbContext _db;
+
+        public Shirt_HandleUpdateExceptionsFilterAttribute(ApplicationDbContext db)
+        {
+            this._db = db;
+        }
         override public void OnException(ExceptionContext context)
         {
             base.OnException(context);
@@ -12,12 +19,15 @@ namespace DemoAPI.Models.Filters.ExceptionFilters
             var strShirtId = context.RouteData.Values["id"] as string;
             if (int.TryParse(strShirtId, out int shirtId))
             {
-                context.ModelState.AddModelError("ShirtId", "Shirt doesn't exist anymore.");
-                var problemDetails = new ValidationProblemDetails(context.ModelState)
+                if(_db.Shirts.FirstOrDefault(x => x.ShirtId == shirtId) == null)
                 {
-                    Status = StatusCodes.Status404NotFound
-                };
-                context.Result = new NotFoundObjectResult(problemDetails);
+                    context.ModelState.AddModelError("ShirtId", "Shirt doesn't exist anymore.");
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Status = StatusCodes.Status404NotFound
+                    };
+                    context.Result = new NotFoundObjectResult(problemDetails);
+                }
             }
         }
     }
