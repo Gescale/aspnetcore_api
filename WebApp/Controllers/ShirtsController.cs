@@ -18,5 +18,22 @@ namespace WebApp.Controllers
             Console.WriteLine("ShirtsController.Index called");
             return View(await webApiExecuter.InvokeGet<List<Shirt>>("shirts"));
         }
+
+        public IActionResult CreateShirt()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateShirt(Shirt shirt)
+        {
+            var response = await webApiExecuter.InvokePost<Shirt>("shirts", shirt);
+            if(response != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(shirt);
+        }
     }
 }
