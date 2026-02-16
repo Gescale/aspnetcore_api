@@ -1,0 +1,81 @@
+﻿@model Shirt
+
+<h3>Update shirt</h3>
+<br />
+<form method="post" asp-action="updateshirt" asp-controller="shirts">
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="BrandName" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="BrandName" class="form-control" />
+        </div>
+    </div>
+    <div class="col">
+        <span asp-validation-for="BrandName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="Gender" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <select asp-for="Gender" class="form-select">
+                <option value="">-- Select --</option>
+                <option value="Men">Men</option>
+                <option value="Women">Women</option>
+            </select>
+        </div>
+    </div>
+    <div class="col">
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="Colour" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Colour" class="form-control" />
+        </div>
+    </div>
+    <div class="col">
+        <span asp-validation-for="Colour" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="Size" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <input type="number" asp-for="Size" class="form-control" min="1" />
+        </div>
+    </div>
+    <div class="col">
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="Price" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <input type="number" asp-for="Price" class="form-control"
+                   name="price"
+                   placeholder="Enter amount"
+                   step="0.01" min="0">
+
+        </div>
+    </div>
+    <div class="col">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="save" />
+        </div>
+    </div>
+</form>
