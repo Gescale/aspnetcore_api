@@ -1,4 +1,6 @@
-﻿namespace WebApp.Data
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace WebApp.Data
 {
     public class WebApiExecuter : IWebApiExecuter
     {
@@ -29,6 +31,13 @@
         {
             var httpClient = httpClientFactory.CreateClient(apiName);
             var response = await httpClient.PutAsJsonAsync(relativeUrl, data);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task InvokeDelete(string relativeUrl)
+        {
+            var httpClient = httpClientFactory.CreateClient(apiName);
+            var response = await httpClient.DeleteAsync(relativeUrl);
             response.EnsureSuccessStatusCode();
         }
     }
