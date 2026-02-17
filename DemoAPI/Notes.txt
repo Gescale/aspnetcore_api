@@ -1,0 +1,8 @@
+After Database Setup, The API has to initialise the database connection and setup
+- Add-Migration InitialCreate //The migration will be created in the Migrations folder, InitialCreate is the name of the migration, you can choose any name you want
+- Update-Database //This will apply the migration to the database and create the tables
+After the API is running, you can test the endpoints using Postman or any other API testing tool. The endpoints are as follows:
+- Remove-Migration //This will remove the last migration, you can use this command if you want to undo the last migration
+- Update-Database [MigrationName] //This will update the database to the specified migration, you can use this command if you want to update the database to a specific migration
+
+
