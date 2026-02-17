@@ -2,8 +2,9 @@
 
 <h3>Update shirt</h3>
 <br />
-<form method="post" asp-action="updateshirt" asp-controller="shirts">
+<form method="post" asp-action="updateshirt">
     <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="ShirtId" />
 
     <div class="mb-3 row">
         <div class="col-2">

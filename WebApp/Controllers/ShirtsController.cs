@@ -50,9 +50,9 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateShirt(Shirt shirt)
         {
-            var response = await webApiExecuter.InvokePut($"shirts/{shirt.ShirtId}", shirt);
-            if (response != null)
+            if(ModelState.IsValid)
             {
+                await webApiExecuter.InvokePut($"shirts/{shirt.ShirtId}", shirt);
                 return RedirectToAction(nameof(Index));
             }
 

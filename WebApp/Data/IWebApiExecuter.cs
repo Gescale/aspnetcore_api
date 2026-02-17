@@ -4,6 +4,6 @@
     {
         Task<T?> InvokeGet<T>(string relativeUrl);
         Task<T?> InvokePost<T>(string relativeUrl, T data);
-        Task<T?> InvokePut<T>(string relativeUrl, T data);
+        Task InvokePut<T>(string relativeUrl, T data);
     }
 }
