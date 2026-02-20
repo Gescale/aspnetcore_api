@@ -1,4 +1,5 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApp.Data
 {
@@ -22,7 +23,13 @@ namespace WebApp.Data
         {
             var httpClient = httpClientFactory.CreateClient(apiName);
             var response = await httpClient.PostAsJsonAsync(relativeUrl, data);
-            response.EnsureSuccessStatusCode();
+            
+            if(!response.IsSuccessStatusCode)
+            {
+                var errorJson = await response.Content.ReadAsStringAsync();
+                throw new WebApiException(errorJson);
+                
+            }
 
             return await response.Content.ReadFromJsonAsync<T>();
         }
