@@ -2,6 +2,7 @@
 {
     public interface IWebApiExecuter
     {
+        Task HandlePotentialError(HttpResponseMessage httpResponse);
         Task InvokeDelete(string relativeUrl);
         Task<T?> InvokeGet<T>(string relativeUrl);
         Task<T?> InvokePost<T>(string relativeUrl, T data);

@@ -15,7 +15,6 @@ namespace WebApp.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            Console.WriteLine("ShirtsController.Index called");
             return View(await webApiExecuter.InvokeGet<List<Shirt>>("shirts"));
         }
 
@@ -27,12 +26,30 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateShirt(Shirt shirt)
         {
-            var response = await webApiExecuter.InvokePost<Shirt>("shirts", shirt);
-            if(response != null)
+            try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var response = await webApiExecuter.InvokePost<Shirt>("shirts", shirt);
+                    if (response != null)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
-
+            catch(WebApiException ex)
+            {
+                if(ex.ErrorResponse != null &&
+                    ex.ErrorResponse.Errors != null &&
+                    ex.ErrorResponse.Errors.Count > 0)
+                {
+                    foreach(var error in ex.ErrorResponse.Errors)
+                    {
+                        ModelState.AddModelError(error.Key, string.Join("; ", error.Value));
+                    }
+                }
+            }
+            
             return View(shirt);
         }
 
