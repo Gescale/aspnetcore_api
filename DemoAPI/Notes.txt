@@ -3,6 +3,57 @@ After Database Setup, The API has to initialise the database connection and setu
 - Update-Database //This will apply the migration to the database and create the tables
 After the API is running, you can test the endpoints using Postman or any other API testing tool. The endpoints are as follows:
 - Remove-Migration //This will remove the last migration, you can use this command if you want to undo the last migration
-- Update-Database [MigrationName] //This will update the database to the specified migration, you can use this command if you want to update the database to a specific migration
 
 
+
+
+Manually Create Database Table
+
+USE ShirtStoreDB;
+GO
+CREATE TABLE Shirts (
+    ShirtID INT IDENTITY(1,1) PRIMARY KEY,
+    BrandName NVARCHAR(100) NOT NULL,
+    Gender NVARCHAR(20) NOT NULL,
+    Colour NVARCHAR(50) NOT NULL,
+    Size NVARCHAR(10) NOT NULL,
+    Price DECIMAL(10,2) NULL
+);
+
+
+
+
+Manually populate Database with Sample Data (Change size from string to INT)
+
+USE master;
+GO
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Nike', 'Men', 'Black', 40, 299);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Adidas', 'Women', 'Red', 38, 349);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Puma', 'Women', 'Blue', 32, 399);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Reebok', 'Men', 'Green', 36, 279);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Under Armour', 'Women', 'White', 48, 319);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Levis', 'Men', 'Grey', 46, 289);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Guess', 'Women', 'Yellow', 50, 359);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Diesel', 'Women', 'Pink', 30, 379);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Zara', 'Men', 'Navy', 58, 269);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('H&M', 'Women', 'Purple', 42, 249);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Calvin Klein', 'Men', 'Black', 56, 399);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Tommy Hilfiger', 'Women', 'Red', 48, 359);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Lacoste', 'Men', 'Blue', 46, 429);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Ralph Lauren', 'Men', 'Green', 40, 389);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Gap', 'Women', 'White', 40, 279);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Old Navy', 'Men', 'Grey', 42, 259);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Uniqlo', 'Women', 'Yellow', 44, 299);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Mango', 'Men', 'Pink', 60, 319);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Banana Republic', 'Men', 'Navy', 33, 349);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Superdry', 'Women', 'Purple', 22, 379);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Champion', 'Men', 'Black', 28, 289);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Fila', 'Women', 'Red', 30, 269);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Hollister', 'Men', 'Blue', 36, 309);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Abercrombie', 'Men', 'Green', 38, 339);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Balenciaga', 'Women', 'White', 39, 459);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Gucci', 'Men', 'Grey', 55, 499);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Prada', 'Women', 'Yellow', 22, 479);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Versace', 'Men', 'Pink', 33, 469);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Off-White', 'Men', 'Navy', 23, 439);
+INSERT INTO Shirts (BrandName, Gender, Colour, Size, Price) VALUES ('Supreme', 'Women', 'Purple', 34, 429);
