@@ -44,7 +44,7 @@ namespace WebApp.Data
         public async Task InvokePut<T>(string relativeUrl, T data)
         {
             var httpClient = _httpClientFactory.CreateClient(shirtsApiName);
-            await AddJwtTokenToHeader(httpClient);
+            //await AddJwtTokenToHeader(httpClient);
             var response = await httpClient.PutAsJsonAsync(relativeUrl, data);
             await HandlePotentialError(response);
         }
