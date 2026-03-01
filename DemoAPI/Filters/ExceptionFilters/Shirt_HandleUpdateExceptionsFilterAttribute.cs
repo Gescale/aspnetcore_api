@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace DemoAPI.Models.Filters.ExceptionFilters
+namespace DemoAPI.Filters.ExceptionFilters
 {
     public class Shirt_HandleUpdateExceptionsFilterAttribute : ExceptionFilterAttribute
     {

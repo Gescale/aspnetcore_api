@@ -1,7 +1,8 @@
 ﻿using DemoAPI.Data;
+using DemoAPI.Filters.ActionFilters;
+using DemoAPI.Filters.AuthFilters;
+using DemoAPI.Filters.ExceptionFilters;
 using DemoAPI.Models;
-using DemoAPI.Models.Filters.ActionFilters;
-using DemoAPI.Models.Filters.ExceptionFilters;
 using DemoAPI.Models.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace DemoAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [JwtTokenAuthFilter]
     public class ShirtsController : ControllerBase
     {
         private readonly ApplicationDbContext db;

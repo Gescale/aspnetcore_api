@@ -1,8 +1,9 @@
 ﻿using DemoAPI.Data;
+using DemoAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace DemoAPI.Models.Filters.ActionFilters
+namespace DemoAPI.Filters.ActionFilters
 {
     public class Shirt_ValidateCreateShirtFilterAttribute : ActionFilterAttribute
     {

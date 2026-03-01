@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using DemoAPI.Models;
 
-
-namespace DemoAPI.Models.Filters.ActionFilters
+namespace DemoAPI.Filters.ActionFilters
 {
     public class Shirt_ValidateUpdateShirtFilterAttribute :ActionFilterAttribute
     {
