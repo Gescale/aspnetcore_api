@@ -11,7 +11,7 @@
 ## Overview
 This repository serves as a deep-dive into building production-grade APIs using **ASP.NET Core 10**. It tracks my progress through the "Master RESTful API Development" course, moving from fundamental REST principles to complex security architectures and frontend integration.
 
-The primary project is a robust **Bug Tracker Web API**, designed with a focus on **Clean Architecture**, **Best Practices**, and **Identity Management**.
+The primary project is a robust **Shirts Web API**, designed with a focus on **Clean Architecture**, **Best Practices**, and **Identity Management**.
 
 ---
 
