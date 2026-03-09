@@ -44,13 +44,13 @@ The primary project is a robust **Bug Tracker Web API**, designed with a focus o
 - [x] **Identity Server 4:** In-depth implementation of centralized authentication and OpenID Connect.
 
 ### 4. Client Consumption
-- [x] **Blazor WebAssembly:** Building the "Bug Tracker" frontend to consume the secured API.
+- [x] **Blazor WebAssembly:** Building the "Shirts" frontend to consume the secured API.
 - [x] **Integration Testing:** Using PowerShell and Postman for automated endpoint verification.
 
 ---
 
-## Key Project: Bug Tracker API
-This API demonstrates a real-world scenario where bugs, users, and projects are managed under strict security protocols.
+## Key Project: Shirts API
+This API demonstrates a real-world scenario where shirts, are retrieved, deleted, edited and added to the database.
 
 
 
