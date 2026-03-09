@@ -34,7 +34,7 @@ The primary project is a robust **Bug Tracker Web API**, designed with a focus o
 - [x] **Versioning & OpenAPI:** Implementing API versioning and full Swagger/OpenAPI documentation.
 
 ### 2. Data & Business Logic
-- [x] **Entity Framework Core:** Mastering migrations and data relationships for the Bug Tracker.
+- [x] **Entity Framework Core:** Mastering migrations and data relationships.
 - [x] **Repository Pattern:** Abstracting data access to ensure the system is loosely coupled.
 - [x] **Best Practices:** Implementing proper error handling and logging throughout the API.
 
@@ -55,8 +55,8 @@ This API demonstrates a real-world scenario where shirts, are retrieved, deleted
 
 
 **Key Features:**
-- **Secure Auth:** Users must be authenticated via Identity Server 4 or JWT to manage bugs.
-- **Fluent Validation:** Ensures high data integrity for bug reports.
+- **Secure Auth:** Users must be authenticated via Identity Server 4 or JWT.
+- **Fluent Validation:** Ensures high data integrity.
 - **Auto-Documentation:** Interactive Swagger UI for easy testing.
 
 ---
