@@ -31,21 +31,21 @@ The primary project is a robust **Bug Tracker Web API**, designed with a focus o
 - [x] **RESTful Design:** Resource-based naming, HTTP verbs, and proper status code usage.
 - [x] **Routing & Model Binding:** Deep dive into how ASP.NET Core maps requests to logic.
 - [x] **Model Validation & Filters:** Implementing a clean Filter Pipeline to handle cross-cutting concerns.
-- [ ] **Versioning & OpenAPI:** Implementing API versioning and full Swagger/OpenAPI documentation.
+- [x] **Versioning & OpenAPI:** Implementing API versioning and full Swagger/OpenAPI documentation.
 
 ### 2. Data & Business Logic
-- [ ] **Entity Framework Core:** Mastering migrations and data relationships for the Bug Tracker.
-- [ ] **Repository Pattern:** Abstracting data access to ensure the system is loosely coupled.
-- [ ] **Best Practices:** Implementing proper error handling and logging throughout the API.
+- [x] **Entity Framework Core:** Mastering migrations and data relationships for the Bug Tracker.
+- [x] **Repository Pattern:** Abstracting data access to ensure the system is loosely coupled.
+- [x] **Best Practices:** Implementing proper error handling and logging throughout the API.
 
 ### 3. Security (The Core Focus)
-- [ ] **JWT Authentication:** Implementing stateless JSON Web Tokens.
-- [ ] **Custom Token Auth:** Understanding token generation and validation mechanics.
-- [ ] **Identity Server 4:** In-depth implementation of centralized authentication and OpenID Connect.
+- [x] **JWT Authentication:** Implementing stateless JSON Web Tokens.
+- [x] **Custom Token Auth:** Understanding token generation and validation mechanics.
+- [x] **Identity Server 4:** In-depth implementation of centralized authentication and OpenID Connect.
 
 ### 4. Client Consumption
-- [ ] **Blazor WebAssembly:** Building the "Bug Tracker" frontend to consume the secured API.
-- [ ] **Integration Testing:** Using PowerShell and Postman for automated endpoint verification.
+- [x] **Blazor WebAssembly:** Building the "Bug Tracker" frontend to consume the secured API.
+- [x] **Integration Testing:** Using PowerShell and Postman for automated endpoint verification.
 
 ---
 
