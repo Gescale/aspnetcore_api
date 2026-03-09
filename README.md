@@ -73,7 +73,7 @@ This API demonstrates a real-world scenario where shirts, are retrieved, deleted
 
 3. **Run the API:**
    ```bash
-   dotnet run --project BugTracker.API
+   dotnet run --project DemoAPI
 
 
 
