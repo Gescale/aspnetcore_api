@@ -1,4 +1,5 @@
-﻿using DemoAPI.Data;
+﻿using DemoAPI.Attributes;
+using DemoAPI.Data;
 using DemoAPI.Filters.ActionFilters;
 using DemoAPI.Filters.AuthFilters;
 using DemoAPI.Filters.ExceptionFilters;
@@ -28,6 +29,7 @@ namespace DemoAPI.Controllers
 
 
         [HttpGet]
+        [RequiredClaim("read", "true")]
         public IActionResult GetShirts()
         {
             return Ok(db.Shirts.ToList());
@@ -62,6 +64,7 @@ namespace DemoAPI.Controllers
         // We use IActionResult when the method returns varying types
         // Whenever we want to return IActionResult as a string we must return the string in the Ok method eg: return Ok("The return string");
         [HttpGet("{id}")]
+        [RequiredClaim("read", "true")]
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult GetShirtById(int id)
         {
@@ -70,6 +73,7 @@ namespace DemoAPI.Controllers
 
         //To update
         [HttpPut("{id}")]
+        [RequiredClaim("write", "true")]
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         [Shirt_ValidateUpdateShirtFilter]
         [TypeFilter(typeof(Shirt_HandleUpdateExceptionsFilterAttribute))]
@@ -91,6 +95,7 @@ namespace DemoAPI.Controllers
 
         // Binding using the body we use the post or put
         [HttpPost]
+        [RequiredClaim("write", "true")]
         [TypeFilter(typeof(Shirt_ValidateCreateShirtFilterAttribute))]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
@@ -112,6 +117,7 @@ namespace DemoAPI.Controllers
         //}
 
         [HttpDelete("{id}")]
+        [RequiredClaim("delete", "true")]
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult DeleteShirt(int id)
         {

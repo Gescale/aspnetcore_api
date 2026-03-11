@@ -1,5 +1,6 @@
 using System.Globalization;
 using WebApp.Data;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,15 @@ builder.Services.AddHttpClient("AuthorityApi", client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.IdleTimeout = TimeSpan.FromHours(5);
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IWebApiExecuter, WebApiExecuter>();
@@ -26,17 +36,17 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-}
-else
-{
-    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapStaticAssets();
 
