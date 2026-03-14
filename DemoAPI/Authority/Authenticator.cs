@@ -1,6 +1,12 @@
-﻿using Microsoft.IdentityModel.JsonWebTokens;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using static System.Net.Mime.MediaTypeNames;
+
+using System;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace DemoAPI.Authority
 {
@@ -24,16 +30,23 @@ namespace DemoAPI.Authority
                 new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey)),
                 SecurityAlgorithms.HmacSha256Signature);
 
-            //Payload
+            //Payload Claims
             var app = AppRepository.GetApplicationByClientId(clientId);
             var claimsDictionary = new Dictionary<string, object>
             {
-                {"AppName", app?.ApplicationName?? string.Empty },
-                {"Read", (app?.Scopes ?? string.Empty).Contains("read")? "true" : "false" },
-                {"Write", (app?.Scopes ?? string.Empty).Contains("write")? "true" : "false" },
-                {"Delete", (app?.Scopes ?? string.Empty).Contains("delete")? "true" : "false" }
+                {"AppName", app?.ApplicationName ?? string.Empty }
             };
 
+            // Extract claims
+            var scopes = app?.Scopes?.Split(',') ?? Array.Empty<string>();
+
+            if(scopes.Length > 0)
+            {
+                foreach(var scope in scopes)
+                {
+                    claimsDictionary.Add(scope.Trim().ToLower(),  "true");
+                }
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -50,11 +63,11 @@ namespace DemoAPI.Authority
             return tokenHandler.CreateToken(tokenDescriptor);
         }
 
-        public static async Task<bool> VerifyTokenAsync(string tokenString, string securityKey)
+        public static async Task<IEnumerable<Claim>?> VerifyTokenAsync(string tokenString, string securityKey)
         {
             if (string.IsNullOrWhiteSpace(tokenString) || string.IsNullOrWhiteSpace(securityKey))
             {
-                return false; 
+                return null; 
             }
 
             var keyBytes = System.Text.Encoding.UTF8.GetBytes(securityKey); // Convert the security key string to bytes
@@ -73,19 +86,29 @@ namespace DemoAPI.Authority
             try
             {
                 var result = await tokenHandler.ValidateTokenAsync(tokenString, validationParameters);
-                return result.IsValid; // Return true if the token is valid, false otherwise
+                
+                if(result.SecurityToken != null)
+                {
+                    var tokenObject = tokenHandler.ReadJsonWebToken(tokenString);
+                    return tokenObject.Claims ?? Enumerable.Empty<Claim>();
+                }
+                else
+                {
+                    //Token is not valid
+                    return null;
+                }
             }
             catch (SecurityTokenMalformedException)
             {
-                return false; // Token is malformed
+                return null; // Token is malformed
             }
             catch (SecurityTokenExpiredException)
             {
-                return false; //Token has expired
+                return null; //Token has expired
             }
             catch (SecurityTokenInvalidSignatureException)
             {
-                return false; // Signature validation failed
+                return null; // Signature validation failed
             }
             catch (Exception)
             {

@@ -12,7 +12,7 @@ namespace DemoAPI.Authority
                 ApplicationName = "MVCWebApp",
                 ClientId = "F04CC7CB-0A4C-485A-8FFE-0F8BC3593A16",
                 Secret = "BDF2A408-CED6-403F-A625-676E84078EB2",
-                Scopes = "read, write, delete"
+                Scopes = "read, write"
                 //Used SQL Server to generate the above ClientId and Secret for better randomness and security
                 //Command: SELECT NEWID() AS RandomGUID;
             }

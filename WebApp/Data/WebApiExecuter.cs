@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApp.Data
@@ -13,7 +14,9 @@ namespace WebApp.Data
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public WebApiExecuter(IHttpClientFactory httpClientFactory, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public WebApiExecuter(IHttpClientFactory httpClientFactory, 
+            IConfiguration configuration, 
+            IHttpContextAccessor httpContextAccessor)
         {
             this._httpClientFactory = httpClientFactory;
             this._configuration = configuration;
@@ -26,7 +29,6 @@ namespace WebApp.Data
             await AddJwtTokenToHeader(httpClient);
             var request = new HttpRequestMessage(HttpMethod.Get, relativeUrl);
             var response = await httpClient.SendAsync(request);
-
             await HandlePotentialError(response);
 
             return await response.Content.ReadFromJsonAsync<T>();
@@ -79,7 +81,8 @@ namespace WebApp.Data
             }
 
             // Ceck if the token string is null or token is expired, if so, we need to get a new one
-            if (token == null || token.ExpiresAt <= DateTime.UtcNow)
+            if (token == null || 
+                token.ExpiresAt <= DateTime.UtcNow)
             {
                 var clientId = _configuration.GetValue<string>("ClientId");
                 var secret = _configuration.GetValue<string>("Secret"); // ?? string.Empty

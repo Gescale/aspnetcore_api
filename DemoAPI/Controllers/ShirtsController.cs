@@ -71,6 +71,22 @@ namespace DemoAPI.Controllers
             return Ok(HttpContext.Items["shirt"]);
         }
 
+
+        // Binding using the body we use the post or put
+        [HttpPost]
+        [RequiredClaim("write", "true")]
+        [TypeFilter(typeof(Shirt_ValidateCreateShirtFilterAttribute))]
+        public IActionResult CreateShirt([FromBody] Shirt shirt)
+        {
+            this.db.Shirts.Add(shirt);
+            this.db.SaveChanges();
+
+            return CreatedAtAction(nameof(GetShirtById),
+                new { id = shirt.ShirtId },
+                shirt);
+        }
+
+
         //To update
         [HttpPut("{id}")]
         [RequiredClaim("write", "true")]
@@ -90,21 +106,6 @@ namespace DemoAPI.Controllers
             db.SaveChanges();
 
             return NoContent();
-        }
-
-
-        // Binding using the body we use the post or put
-        [HttpPost]
-        [RequiredClaim("write", "true")]
-        [TypeFilter(typeof(Shirt_ValidateCreateShirtFilterAttribute))]
-        public IActionResult CreateShirt([FromBody]Shirt shirt)
-        {
-            this.db.Shirts.Add(shirt);
-            this.db.SaveChanges();
-
-            return CreatedAtAction(nameof(GetShirtById),
-                new { id = shirt.ShirtId },
-                shirt);
         }
 
 
