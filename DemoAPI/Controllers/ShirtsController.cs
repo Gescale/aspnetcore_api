@@ -108,15 +108,6 @@ namespace DemoAPI.Controllers
             return NoContent();
         }
 
-
-        // To delete
-        //[HttpDelete]
-        //[Route("/shirts/{id}")]
-        //public IActionResult DeleteShirt(int id)
-        //{
-        //    return Ok($"Deleting shirt {id}");
-        //}
-
         [HttpDelete("{id}")]
         [RequiredClaim("delete", "true")]
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]

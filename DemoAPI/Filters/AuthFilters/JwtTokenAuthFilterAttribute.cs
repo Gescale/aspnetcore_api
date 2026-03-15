@@ -36,12 +36,6 @@ namespace DemoAPI.Filters.AuthFilters
             var configuration = context.HttpContext.RequestServices.GetService<IConfiguration>();  
             var securityKey = configuration?["SecurityKey"]??string.Empty;
 
-            //:4. Verify the Token and extract te claims
-            //if (!await Authenticator.VerifyTokenAsync(tokenString, securityKey))
-            //{
-            //    context.Result = new UnauthorizedResult();
-            //}
-
             var claims = await Authenticator.VerifyTokenAsync(tokenString, securityKey);
             
             if (claims == null)
@@ -56,39 +50,13 @@ namespace DemoAPI.Filters.AuthFilters
                     .OfType<RequiredClaimAttribute>()
                     .ToList();
 
-                //if(requiredClaims != null && requiredClaims.All(rc => claims.Any(c => 
-                //c.Type.Equals(rc.ClaimType, StringComparison.OrdinalIgnoreCase) &&
-                //c.Value.Equals(rc.ClaimValue, StringComparison.OrdinalIgnoreCase))))
-                //{
-                //    //403 Forbidden, server knows who you are but you dont have the required permissions to access this resource
-                //    context.Result = new StatusCodeResult(403); 
-                //}
-
-
-                
                 if (requiredClaims != null && requiredClaims.Any())
                 {
                     var hasAllRequired = requiredClaims.All(rc => claims.Any(c =>
                         c.Type.Equals(rc.ClaimType, StringComparison.OrdinalIgnoreCase) &&
                         c.Value.Equals(rc.ClaimValue, StringComparison.OrdinalIgnoreCase)));
 
-                    var counter = 1;
-                    Console.WriteLine("Required Claims:");
-                    foreach (var _rclaim in requiredClaims)
-                    {
-                        Console.WriteLine($"{counter}. requiredClaim.Type : " + _rclaim.ClaimType.ToString());
-                        Console.WriteLine($"{counter}. requiredClaim.Value : " + _rclaim.ClaimValue.ToString());
-                    }
-
-                    counter = 1;
-                    Console.WriteLine("Extracted Claims:");
-                    foreach (var _claim in claims)
-                    {
-                        Console.WriteLine($"{counter}. claim.Type : " + _claim.Type.ToString());
-                        Console.WriteLine($"{counter}. claim.Value : " + _claim.Value.ToString());
-                    }
-
-                        if (!hasAllRequired)
+                    if (!hasAllRequired)
                     {
                         //403 Forbidden, server knows who you are but you dont have the required permissions to access this resource
                         context.Result = new StatusCodeResult(403);
@@ -97,7 +65,7 @@ namespace DemoAPI.Filters.AuthFilters
 
                 else
                 {
-                    //If there are no required claims, user has no permissions to access resources.
+                    //If the required claims are not in the available claims, user has no permissions to access resources.
                     context.Result = new UnauthorizedResult();
                 }
             }
