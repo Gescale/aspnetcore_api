@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DemoAPI.Data;
+using DemoAPI.Filters.OperationFilter;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +14,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 
+//Used swashbuckle v6.5.0 and OpenApi v1.6.18, those are the only versions that allowed me to follow through the tutorials without throwing error messages.
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.OperationFilter<AuthorizationHeaderOperationFilter>();
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Scheme = "Bearer",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header
+    });
+});
 
 var app = builder.Build();
 
